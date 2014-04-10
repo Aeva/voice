@@ -1,0 +1,17 @@
+
+This code wraps Espeak and Festival, so go install those before trying
+this out.
+
+You can instance the Festival or Espeak classes to see what voices are
+available on the system for that speech engine.
+
+To create a "say" function, use the voice_builder function; use the
+default args if you don't care what it sounds like.  The result is a
+function which you can pass text to.
+
+The "ramble" function takes a "say" function, and dumps random
+dictionary words into it.
+
+"timed_ramble" is the same thing but with a delay.
+
+"reader" takes a path and reads the contents of the file aloud.
