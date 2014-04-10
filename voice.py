@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+
+import time
+import random
 from glob import glob
 from os.path import join, split
 from sh import festival, espeak, echo
@@ -50,3 +53,29 @@ def voice_builder(engine=Festival, voice=None, blocking=True):
     def say(message):
         eng.say(message, voice, blocking)
     return say
+
+
+def ramble(say_func):
+    with open("/usr/share/dict/words") as dump:
+        words = dump.readlines()
+        random.shuffle(words)
+        for word in words:
+            say_func(word)
+
+
+def timed_ramble(say_func, delay=.8):
+    def say(msg):
+        say_func(msg)
+        time.sleep(delay)
+    ramble(say)
+
+
+def reader(path, say_func=None):
+    if not say_func:
+        say_func = voice_builder()
+    with open(path) as dump:
+        text = []
+        for line in dump.readlines():
+            line = line.strip()
+            if line:
+                say_func(line)

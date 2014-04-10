@@ -1,0 +1,19 @@
+This is only a test
+
+This page is the product of reworking how PRT looks, mainly to add a new font face so that blog text is cleaner to read. The punctuation characters in the font I had been using didn't show up very well, creating what looks to be run-on sentences. But now you can see my oxford commas and what not. I also wanted to clean up some of the css and structural cruft now that I'm older and wiser. Such is the spirit of this site, you can see the older versions of things by looking at older posts.
+
+Also, I added one of those fancy atom feeds. You can see it in the navigation links right below the image above.
+
+The font face I picked for the article text is called "im fell english pro". You can find it for free on font squirrel. Igino Marini, the author of the font, has articulated some particular criteria for the use of the font in the posted license. I take objection to this sort of license, as providing a list of demands is misleading in terms of what the end user is actually legally obligated to do. This is partly because the license is written in plain english, and partly because the relevant intellectual property law is inconsistent. The license also states that I should notify the author of the font that I am using it in my publication. I'm fine with the idea that Igino might be interested in seeing people build upon his work, but as a requirement it is disrespectful of the privacy of other authors. Which is funny, because if it was optional, I'd reach out to him. The amusing part of this is that with the magic of google, it is concievable that he could find this site anyway.
+
+I get kind of defensive about this sort of thing, having participated in one too many arguments in about the merits of artists and designers using free culture licenses. The argument against using free culture licenses usually ends up being a strawman argument stating that all unauthorized use of the work is robbing the poor, well-intentioned artist.
+
+The license in the form it is given would normally be a deal breaker for me, even though the closest permissive non-free licenese I can think of would be good enough. As such, my decision to use this font anyway despite being out of compliance with the author's wishes comes down to this:
+
+1) I don't make any profit from this site - I don't run ads or collect any user metrics.
+2) Legal ramifications are enormousely unlikely.
+3) I just dedicated a whole damn blog post to this guy by over thinking this whole thing.
+4) The best alternative I've found so far is apparently too hard to read.
+
+The ideal typesetting for this site looks like a old or slightly dirty typewriter. The characters should not have crisp edges, but they shouldn't be too out there in the "grunge font" sort of way. Most importantly, the font needs to have a fairly complete character map. All of the characters on the us-engilsh keyboard should be mappable. Extra credit if the character map goes beyond that. If anyone knows of a font like this that is in the public domain, or under an open license, or at least doesn't have a bullshit fake license, I'm all ears. I don't have contact info on this site. So if you don't really know who I am, but have a really good suggestion - sorry xD!
+
