@@ -1,0 +1,27 @@
+This is a text-to-speech module for python which wraps Festival and
+Espeak on GNU/Linux systems (and possibly other Unixes).  Only one of
+the two libraries needs to be installed for this module to work.
+
+When installed, this module provides the following commands:
+
+ - say
+ - readtome
+
+The "say" command will pass either its command line arguments or
+whatever was pipe into it, and in turn pass that to the text-to-speech
+backend.  This currently does give the option to pick the voice or the
+engine, however a future version will.
+
+The "readtome" command is used for downloading a webpage and passing
+it along to the text-to-speech backend.  See the --help text for
+information on exact usage.  This command lets you select either an
+xpath query, an element id, or (if either are omitted) reading the
+from the document body.  It also lets you configure the engine and
+voice if you so desire to do so.
+
+
+This module relies on the following 3rd party python libraries:
+
+ - lxml
+ - requests
+
