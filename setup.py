@@ -18,5 +18,8 @@ setup(name="voice",
         },
 
       install_requires = [
+          "lxml",
+          "sh",
+          "requests",
         ])
       
