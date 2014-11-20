@@ -64,6 +64,10 @@ def engine_args(args):
     # bool args
     list_engines = args.list_engines
     list_voices = args.list_voices
+    use_espeak = args.e
+
+    if use_espeak:
+        use_engine = "espeak"
 
     if use_engine == "any":
         use_engine = None
@@ -111,6 +115,9 @@ def say_command():
     parser.add_argument(
         '--list-voices', default=False, action="store_true",
         help="List available voices for the given or default engine.")
+    parser.add_argument(
+        '-e', default=False, action="store_true",
+        help="Shorthand for --engine=espeak.")
 
     # parse args
     args = parser.parse_args()
@@ -156,6 +163,9 @@ def read_to_me():
     parser.add_argument(
         '--list-voices', default=False, action="store_true",
         help="List available voices for the given or default engine.")
+    parser.add_argument(
+        '-e', default=False, action="store_true",
+        help="Shorthand for --engine=espeak.")
 
     # parse args
     args = parser.parse_args()
