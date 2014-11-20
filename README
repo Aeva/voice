@@ -22,6 +22,7 @@ voice if you so desire to do so.
 
 This module relies on the following 3rd party python libraries:
 
+ - sh
  - lxml
  - requests
 
