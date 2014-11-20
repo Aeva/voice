@@ -1,6 +1,7 @@
 
 
 import sys
+import select
 import argparse
 
 import requests
@@ -11,23 +12,103 @@ import voice
 
 def get_input():
     """
-    Returns the input to the command, be it from sys.argv or piped.
+    This returns a string from stdin, if there is anything in stdin.
+    This way we can use data piped into the command or data specified
+    in the arguments.
     """
-    message = None
-    if len(sys.argv) > 1:
-        message = " ".join(sys.argv[1:])
-    else:
-        message = raw_input()
-    return message
+    readable, writable, the_other_one = select.select([sys.stdin], [], [], 0)
+    return readable[0].read() if readable else ""
+
+
+def clean_arg(arg, anyable=False):
+    """
+    Extract a string value from an arg.  I'm probably using the lib
+    wrong, but it seems like the arg can be anything from a
+    string, a list with a single string in it, or None.
+    """
+    found = ""
+    if arg:
+        if type(arg) == list:
+            found = arg[0]
+        else:
+            found = arg
+        if anyable:
+            if found == "any":
+                found = None
+    return found
+
+
+def engine_args(args):
+    """
+    Performs functionality for listing voices, setting the engine, etc.
+    """
+
+    # string args
+    use_engine = clean_arg(args.engine, True)
+    use_voice = clean_arg(args.voice, True)
+
+    # bool args
+    list_engines = args.list_engines
+    list_voices = args.list_voices
+
+    if use_engine == "any":
+        use_engine = None
+    if use_voice == "any":
+        use_voice = None
+
+    if list_engines:
+        print "These are the available text-to-speech engines:"
+        for engine in voice.ENGINES:
+            print " - " + engine.name
+        exit()
+
+    if list_voices:
+        print "These are the available voices for the current engine:"
+        for voice_name in voice.get_voices(engine=use_engine):
+            print " - " + voice_name
+        exit()
+
+    return use_engine, use_voice
 
 
 def say_command():
     """
     This is a wrapper for voice.say to enable a 'say' shell command.
     """
-    message = get_input()
+
+    bio = """
+    This command provides a simple interface for various
+    text-to-speech engines in GNU/Linux.
+    """
+
+    parser = argparse.ArgumentParser(description=bio)
+    parser.add_argument(
+        "message", metavar="message", type=str, nargs='?',
+        default=get_input(), help="Message to be read aloud.")
+    parser.add_argument(
+        '--engine', metavar="engine", type=str, nargs=1, default="any",
+        help="Override the default speech engine.")
+    parser.add_argument(
+        '--voice', metavar="voice", type=str, nargs=1, default="any",
+        help="Override the default voice for the speech engine.")
+    parser.add_argument(
+        '--list-engines', default=False, action="store_true",
+        help="List available speech engines.")
+    parser.add_argument(
+        '--list-voices', default=False, action="store_true",
+        help="List available voices for the given or default engine.")
+
+    # parse args
+    args = parser.parse_args()
+
+    # string args
+    message = clean_arg(args.message)
+    use_engine, use_voice = engine_args(args)
+
     if message:
-        voice.say(message)
+        voice.say(message, use_voice, use_engine)
+
+
 
 
 def read_to_me():
@@ -64,23 +145,6 @@ def read_to_me():
         '--list-voices', default=False, action="store_true",
         help="List available voices for the given or default engine.")
 
-    def clean_arg(arg, anyable=False):
-        """
-        Extract a string value from an arg.  I'm probably using the lib
-        wrong, but it seems like the arg can be anything from a
-        string, a list with a single string in it, or None.
-        """
-        found = ""
-        if arg:
-            if type(arg) == list:
-                found = arg[0]
-            else:
-                found = arg
-            if anyable:
-                if found == "any":
-                    found = None
-        return found
-
     # parse args
     args = parser.parse_args()
 
@@ -88,29 +152,7 @@ def read_to_me():
     url = clean_arg(args.url)
     dom_id = clean_arg(args.id)
     xpath = clean_arg(args.xpath)
-    use_engine = clean_arg(args.engine, True)
-    use_voice = clean_arg(args.voice, True)
-
-    # bool args
-    list_engines = args.list_engines
-    list_voices = args.list_voices
-
-    if use_engine == "any":
-        use_engine = None
-    if use_voice == "any":
-        use_voice = None
-
-    if list_engines:
-        print "These are the available text-to-speech engines:"
-        for engine in voice.ENGINES:
-            print " - " + engine.name
-        exit()
-
-    if list_voices:
-        print "These are the available voices for the current engine:"
-        for voice_name in voice.get_voices(engine=use_engine):
-            print " - " + voice_name
-        exit()
+    use_engine, use_voice = engine_args(args)
 
     if not url:
         print "You must provide a url."
