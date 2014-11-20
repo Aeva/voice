@@ -27,20 +27,19 @@ class Espeak(common.SpeechEngine):
 
     def voices(self):
         # is there a way to generate this automatically and correctly?
-        mods = ["+m%s"%i for i in range(1,8)]
-        mods += ["+f%s"%i for i in range(1,8)] 
-        mods += ["+croak", "+whisper"]
-        voices = ["english-us"]
-        found = []
-        for voice in voices:
-            for mod in mods:
-                found.append(voice+mod)
-        return found
+        lines = espeak(voices="variant").stdout.split("\n")[1:-1]
+        voices = []
+        for line in lines:
+            file_part = [i.strip() for i in line.split(" ") if i][-1]
+            variant = file_part.split("/")[-1]
+            voices.append(variant)
+        voices.sort()
+        return voices
 
     def say(self, message, voice=None, block=True):
         msg = common.sterilize(message)
         if voice and voice in self.voices():
-            espeak(echo(msg), "-v", voice, _bg=not block)
+            espeak(echo(msg), "-v", "+"+voice, "-s", 120, _bg=not block)
         else:
             espeak(echo(msg), _bg=not block)
 
