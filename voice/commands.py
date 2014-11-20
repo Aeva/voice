@@ -123,8 +123,6 @@ def say_command():
         voice.say(message, use_voice, use_engine)
 
 
-
-
 def read_to_me():
     """
     Implements the "readtome" shell command.  Given a url and maybe
